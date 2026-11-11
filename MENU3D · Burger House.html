@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MENU3D · Burger House</title>
+<style>
+:root{--bg:#050403;--s1:#120e0a;--s2:#1b150f;--ln:#2e241a;--tx:#f6efe7;--mu:#a69685;--or:#ff6a00;--or2:#ffb347;color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-behavior:smooth;scroll-padding-top:70px}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.5 "Sora","Segoe UI",system-ui,sans-serif;overflow-x:hidden}
+h1,h2,h3{font-family:"Bricolage Grotesque","Sora",system-ui,sans-serif;letter-spacing:-.03em;line-height:1;margin:0}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
+:focus-visible{outline:2px solid var(--or2);outline-offset:3px}
+nav{position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:space-between;padding:12px 18px;background:rgba(5,4,3,.82);backdrop-filter:blur(14px);border-bottom:1px solid var(--ln)}
+.logo{font-weight:800;font-size:19px;letter-spacing:-.04em}.logo b{color:var(--or)}
+.logo small{display:block;font-size:10px;font-weight:500;color:var(--mu);letter-spacing:.02em;margin-top:-2px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:13px 22px;border-radius:999px;font-weight:700;background:linear-gradient(135deg,var(--or),#ff8a1f);color:#190a00;box-shadow:0 8px 30px -8px rgba(255,106,0,.7);transition:transform .2s}
+.btn:active{transform:scale(.96)}.btn.gh{background:transparent;color:var(--tx);border:1px solid var(--ln);box-shadow:none}
+.hero{position:relative;padding:34px 20px 40px;overflow:hidden;max-width:1100px;margin:auto;display:grid;gap:10px}
+.hero::before{content:"";position:absolute;width:520px;height:520px;right:-180px;top:40px;background:radial-gradient(circle,rgba(255,106,0,.35),transparent 65%);filter:blur(10px)}
+.hero h1{font-size:clamp(46px,13vw,104px);font-weight:800;position:relative}
+.hero h1 span{display:block;color:transparent;-webkit-text-stroke:1.5px var(--or)}
+.hero p{max-width:34ch;color:var(--mu);position:relative;margin:12px 0 18px}
+.hero .row{display:flex;gap:10px;flex-wrap:wrap;position:relative}
+.heroimg{position:relative;width:min(100%,520px);margin:6px auto 0;animation:fl 6s ease-in-out infinite;filter:drop-shadow(0 40px 40px rgba(255,106,0,.28))}
+@keyframes fl{50%{transform:translateY(-14px) rotate(-2deg)}}
+.stats{display:flex;gap:22px;position:relative;margin-top:14px;color:var(--mu);font-size:13px}.stats b{display:block;color:var(--tx);font-size:22px;font-family:"Bricolage Grotesque",sans-serif}
+@media(min-width:820px){.hero{grid-template-columns:1.1fr 1fr;align-items:center;padding-top:60px}.heroimg{margin:0}}
+section{max-width:1100px;margin:auto;padding:30px 18px}
+.cats{display:flex;gap:8px;overflow-x:auto;padding:4px 0 14px;scrollbar-width:none;position:sticky;top:58px;z-index:10;background:linear-gradient(var(--bg) 80%,transparent)}
+.cats::-webkit-scrollbar{display:none}
+.chip{flex:none;padding:10px 18px;border-radius:999px;border:1px solid var(--ln);color:var(--mu);font-weight:600;font-size:14px;transition:.25s}
+.chip.on{background:var(--or);color:#190a00;border-color:var(--or)}
+.grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
+.card{background:linear-gradient(180deg,var(--s2),var(--s1));border:1px solid var(--ln);border-radius:26px;overflow:hidden;text-align:left;display:flex;flex-direction:column;transition:transform .3s,border-color .3s;animation:in .5s both}
+.card:hover{transform:translateY(-6px);border-color:var(--or)}
+@keyframes in{from{opacity:0;transform:translateY(24px) scale(.97)}}
+.ph{aspect-ratio:5/4;display:grid;place-items:center;background:radial-gradient(circle at 50% 60%,rgba(255,106,0,.28),transparent 70%);position:relative}
+.ph svg{width:84%;transition:transform .5s}.card:hover .ph svg{transform:scale(1.08) rotate(-3deg)}
+.ph .em{font-size:84px;filter:drop-shadow(0 12px 18px #000)}
+.tag{position:absolute;top:14px;left:14px;font-size:11px;font-weight:700;background:rgba(0,0,0,.6);border:1px solid var(--or);color:var(--or2);padding:4px 10px;border-radius:99px}
+.d3{position:absolute;top:14px;right:14px;font-size:11px;font-weight:800;background:var(--or);color:#190a00;padding:4px 9px;border-radius:8px}
+.cb{padding:16px 18px 20px;display:grid;gap:6px}.cb h3{font-size:22px}.cb p{margin:0;color:var(--mu);font-size:14px}
+.pr{display:flex;justify-content:space-between;align-items:center;margin-top:8px;font-weight:800;font-size:20px}.pr i{font-style:normal;font-size:13px;font-weight:600;color:var(--or2)}
+.feat{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
+.feat div{border:1px solid var(--ln);border-radius:22px;padding:22px;background:var(--s1)}.feat b{font-family:"Bricolage Grotesque",sans-serif;font-size:21px;display:block;margin-bottom:6px}.feat span{color:var(--mu);font-size:14px}
+h2{font-size:clamp(30px,7vw,52px);margin-bottom:16px}
+footer{text-align:center;color:var(--mu);font-size:13px;padding:40px 20px 110px;border-top:1px solid var(--ln)}
+#bar{position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px));z-index:30;max-width:520px;margin:auto;display:flex;justify-content:space-between;align-items:center;background:var(--or);color:#190a00;padding:14px 20px;border-radius:20px;font-weight:800;transform:translateY(160%);transition:transform .4s cubic-bezier(.2,1.2,.4,1);box-shadow:0 14px 40px -8px rgba(255,106,0,.7)}
+#bar.show{transform:none}
+#md{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.72);backdrop-filter:blur(8px);display:none;align-items:flex-end;justify-content:center}
+#md.open{display:flex}
+.sheet{width:100%;max-width:880px;max-height:94dvh;overflow:auto;background:var(--s1);border:1px solid var(--ln);border-radius:30px 30px 0 0;animation:up .45s cubic-bezier(.2,1,.3,1);display:grid}
+@keyframes up{from{transform:translateY(100%)}}
+@media(min-width:820px){#md{align-items:center}.sheet{border-radius:30px;grid-template-columns:1.1fr 1fr}}
+.stage{position:relative;aspect-ratio:1/1;max-height:60dvh;width:100%;background:radial-gradient(circle at 50% 55%,#3a1c07,#0a0705 72%);overflow:hidden;touch-action:none}
+.stage video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.stage.table{background:radial-gradient(ellipse at 50% 90%,#5a3a1f,#1b1008 70%)}
+.stage canvas{position:absolute;inset:0;width:100%;height:100%}
+.hint{position:absolute;left:0;right:0;bottom:10px;text-align:center;font-size:12px;color:var(--mu);pointer-events:none}
+.x{position:absolute;top:12px;right:12px;z-index:3;width:40px;height:40px;border-radius:50%;background:rgba(0,0,0,.65);border:1px solid var(--ln);font-size:20px}
+.info{padding:22px;display:grid;gap:12px;align-content:start}
+.info h2{font-size:34px;margin:0}.info p{margin:0;color:var(--mu)}
+.mt{display:flex;gap:8px;flex-wrap:wrap}.mt span{border:1px solid var(--ln);border-radius:12px;padding:6px 12px;font-size:13px}
+.qty{display:flex;align-items:center;gap:14px}.qty button{width:38px;height:38px;border-radius:50%;border:1px solid var(--ln);font-size:20px}
+.glb{font-size:12px;color:var(--mu);border:1px dashed var(--ln);border-radius:14px;padding:10px 12px;display:block;cursor:pointer}.glb input{display:none}.glb b{color:var(--or2)}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<nav><div class="logo">MENU<b>3D</b><small>by Burger House</small></div><button class="btn" id="navAr" style="padding:9px 16px;font-size:14px">Ver na minha mesa</button></nav>
+
+<header class="hero">
+  <div>
+    <h1>BURGER<span>HOUSE</span></h1>
+    <p>Gire, aproxime e veja cada burger em 3D antes de pedir. O cardápio que sai do papel.</p>
+    <div class="row"><a class="btn" href="#menu">Abrir cardápio</a><button class="btn gh" id="heroOpen">Testar em 3D</button></div>
+    <div class="stats"><div><b>12</b>itens em 3D</div><div><b>4,9</b>avaliação</div><div><b>25 min</b>entrega</div></div>
+  </div>
+  <div class="heroimg" id="heroImg"></div>
+</header>
+
+<section id="menu">
+  <h2>Cardápio</h2>
+  <div class="cats" id="cats"></div>
+  <div class="grid" id="grid"></div>
+</section>
+
+<section>
+  <h2>Menu que vira experiência</h2>
+  <div class="feat">
+    <div><b>Modelos 3D reais</b><span>Cada prato aceita um arquivo .glb escaneado do próprio restaurante.</span></div>
+    <div><b>Na sua mesa</b><span>Use a câmera para ver o tamanho do burger antes de escolher.</span></div>
+    <div><b>Pedido direto</b><span>Do cardápio ao carrinho em dois toques, sem aplicativo.</span></div>
+  </div>
+</section>
+<footer>MENU3D · demonstração para restaurantes · Burger House é um nome fictício</footer>
+
+<div id="bar"><span id="bc">0 itens</span><span id="bt">R$ 0,00</span></div>
+
+<div id="md" aria-modal="true" role="dialog">
+  <div class="sheet">
+    <div class="stage" id="stage"><button class="x" id="cl" aria-label="Fechar">×</button><div class="hint" id="hint">Arraste para girar</div></div>
+    <div class="info">
+      <div class="mt" id="mt"></div>
+      <h2 id="mn"></h2><p id="mdsc"></p>
+      <div class="pr"><span id="mp"></span></div>
+      <button class="btn gh" id="ar">Ver na minha mesa</button>
+      <label class="glb"><input type="file" id="file" accept=".glb,.gltf"><b>Carregar modelo real (.glb)</b><br>Substitui o modelo de demonstração</label>
+      <div class="qty"><button id="mi" aria-label="Menos">−</button><b id="q">1</b><button id="pl" aria-label="Mais">+</button><button class="btn" id="add" style="margin-left:auto">Adicionar</button></div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+<script>
+const $=s=>document.querySelector(s),R=n=>n.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+const IT=[
+{c:'Burgers',n:'Smoke Stack',p:46.9,d:'Dois smash de 90 g, cheddar, bacon crocante e molho defumado.',k:'b',pt:2,ch:1,bc:1,tg:'Mais pedido',kc:820,t:'20 min'},
+{c:'Burgers',n:'Classic House',p:34.9,d:'Blend de 150 g, queijo prato, alface, tomate e maionese da casa.',k:'b',pt:1,ch:1,bc:0,lt:1,tg:'Clássico',kc:610,t:'15 min'},
+{c:'Burgers',n:'Inferno Habanero',p:42.9,d:'Smash duplo, pepper jack, jalapeño e geleia de habanero.',k:'b',pt:2,ch:1,bc:0,hot:1,tg:'Picante',kc:760,t:'18 min'},
+{c:'Burgers',n:'Triple Bull',p:59.9,d:'Três blends de 100 g, cheddar triplo e cebola caramelizada.',k:'b',pt:3,ch:1,bc:1,tg:'Para os fortes',kc:1180,t:'22 min'},
+{c:'Burgers',n:'Garden Smash',p:38.9,d:'Burger de grão-de-bico, rúcula, tomate e molho de ervas.',k:'b',pt:1,ch:0,bc:0,lt:1,gr:1,tg:'Vegano',kc:520,t:'15 min'},
+{c:'Combos',n:'Combo Smoke',p:64.9,d:'Smoke Stack, batata rústica e refrigerante 350 ml.',k:'b',pt:2,ch:1,bc:1,tg:'Combo',kc:1290,t:'22 min'},
+{c:'Combos',n:'Combo Classic',p:52.9,d:'Classic House, batata crinkle e milk-shake pequeno.',k:'b',pt:1,ch:1,bc:0,lt:1,tg:'Combo',kc:1010,t:'20 min'},
+{c:'Acompanhamentos',n:'Batata Rústica',p:19.9,d:'Com casca, alho e alecrim. Acompanha maionese verde.',k:'f',e:'🍟',tg:'Crocante',kc:380,t:'10 min'},
+{c:'Acompanhamentos',n:'Onion Rings',p:22.9,d:'Anéis empanados em panko, com molho barbecue.',k:'f',e:'🧅',tg:'Novo',kc:340,t:'12 min'},
+{c:'Bebidas',n:'Milk-shake Cacau',p:24.9,d:'Sorvete de baunilha, cacau 70% e chantilly.',k:'d',cl:0x4a2a14,e:'🥤',tg:'Gelado',kc:560,t:'8 min'},
+{c:'Bebidas',n:'Limonada Suíça',p:14.9,d:'Limão tahiti batido com leite condensado e gelo.',k:'d',cl:0xd9e86a,e:'🍋',tg:'Refrescante',kc:180,t:'6 min'},
+{c:'Sobremesas',n:'Brownie Brasa',p:21.9,d:'Brownie quente com sorvete de creme e calda de caramelo.',k:'s',e:'🍫',tg:'Quentinho',kc:480,t:'10 min'}];
+const CATS=['Todos','Burgers','Combos','Acompanhamentos','Bebidas','Sobremesas'];
+
+function svg(i){const t=i.pt||1,h=i.hot?'#c4170c':'#e8b923';let y=112,o='';
+ o+=`<ellipse cx="100" cy="150" rx="82" ry="7" fill="#000" opacity=".5"/>`;
+ o+=`<path d="M22 ${y} Q100 ${y+8} 178 ${y} Q176 ${y+26} 148 ${y+28} L52 ${y+28} Q24 ${y+26} 22 ${y}Z" fill="#c9852e"/>`;
+ let top=y;
+ for(let k=0;k<t;k++){top-=22;o+=`<rect x="20" y="${top}" width="160" height="22" rx="11" fill="#4a2410"/><rect x="24" y="${top+3}" width="152" height="6" rx="3" fill="#6b3a1c" opacity=".7"/>`;
+  if(i.ch){o+=`<path d="M18 ${top-2} H182 L170 ${top+14} L148 ${top+6} L120 ${top+16} L90 ${top+6} L60 ${top+16} L30 ${top+6}Z" fill="${h}"/>`;top-=4}}
+ if(i.bc){top-=6;o+=`<path d="M24 ${top+4} q20 -10 40 0 t40 0 t40 0 t30 0 v7 q-20 6 -40 0 t-40 0 t-40 0 t-30 0z" fill="#a8321f"/>`}
+ if(i.lt||i.k=='b'){top-=10;o+=`<path d="M16 ${top+8} q12 -14 24 0 t24 0 t24 0 t24 0 t24 0 t24 0 t24 0 v8 H16z" fill="${i.gr?'#4db04a':'#6fcb3e'}"/>`}
+ top-=8;o+=`<rect x="28" y="${top}" width="144" height="10" rx="5" fill="#d8321f"/>`;
+ const by=top-52;o+=`<path d="M16 ${top-2} Q16 ${by} 100 ${by} Q184 ${by} 184 ${top-2}Z" fill="#e0993a"/><path d="M40 ${by+14} Q70 ${by+6} 100 ${by+6}" stroke="#fff3" stroke-width="5" fill="none" stroke-linecap="round"/>`;
+ [[70,26],[100,18],[130,26],[85,38],[118,40],[55,42],[148,42]].forEach(([x,z])=>o+=`<ellipse cx="${x}" cy="${by+z}" rx="4" ry="2" fill="#fff0c8" transform="rotate(${x%40-20} ${x} ${by+z})"/>`);
+ return `<svg viewBox="0 ${by-10} 200 ${170-by}" xmlns="http://www.w3.org/2000/svg">${o}</svg>`}
+
+$('#heroImg').innerHTML=svg(IT[3]);
+let cat='Todos',cart=[];
+$('#cats').innerHTML=CATS.map(c=>`<button class="chip" data-c="${c}">${c}</button>`).join('');
+function draw(){document.querySelectorAll('.chip').forEach(b=>b.classList.toggle('on',b.dataset.c==cat));
+ $('#grid').innerHTML=IT.map((i,x)=>({i,x})).filter(o=>cat=='Todos'||o.i.c==cat).map(({i,x},k)=>`<button class="card" style="animation-delay:${k*55}ms" data-i="${x}"><div class="ph">${i.k=='b'?svg(i):`<div class="em">${i.e}</div>`}<span class="tag">${i.tg}</span><span class="d3">3D</span></div><div class="cb"><h3>${i.n}</h3><p>${i.d}</p><div class="pr">${R(i.p)}<i>${i.kc} kcal · ${i.t}</i></div></div></button>`).join('')}
+$('#cats').onclick=e=>{const b=e.target.closest('.chip');if(b){cat=b.dataset.c;draw()}};
+$('#grid').onclick=e=>{const b=e.target.closest('.card');if(b)openM(+b.dataset.i)};
+draw();
+
+let cur,qty=1,T={};
+function M(c,r=.5){return new THREE.MeshStandardMaterial({color:c,roughness:r})}
+function cyl(rt,rb,h,c,seg=40){return new THREE.Mesh(new THREE.CylinderGeometry(rt,rb,h,seg),M(c,.7))}
+function model(i){const g=new THREE.Group();let y=0;
+ if(i.k=='b'){const bot=new THREE.Mesh(new THREE.SphereGeometry(1.1,40,16,0,6.283,1.57,1.57),M(0xc9852e,.6));bot.scale.y=.45;g.add(bot);y=0;
+  const add=(m,h)=>{m.position.y=y+h/2;g.add(m);y+=h};
+  for(let k=0;k<(i.pt||1);k++){add(cyl(1.08,1.04,.3,0x4a2410),.3);if(i.ch){const c=new THREE.Mesh(new THREE.BoxGeometry(2.2,.06,2.2),M(i.hot?0xe8561a:0xf2b51e,.4));c.rotation.y=.8;add(c,.07)}}
+  if(i.bc){const b=new THREE.Mesh(new THREE.TorusGeometry(.95,.06,8,40),M(0xa8321f));b.rotation.x=1.57;b.scale.set(1,1,1);add(b,.1)}
+  if(i.lt||1){const l=new THREE.Mesh(new THREE.TorusGeometry(1.05,.1,10,48),M(i.gr?0x4db04a:0x6fcb3e,.8));l.rotation.x=1.57;l.scale.z=.5;add(l,.12)}
+  add(cyl(1,1,.12,0xd8321f),.12);
+  const top=new THREE.Mesh(new THREE.SphereGeometry(1.12,40,20,0,6.283,0,1.57),M(0xe0993a,.55));top.scale.y=.85;top.position.y=y;g.add(top);
+  for(let k=0;k<26;k++){const a=k*2.4,r=.25+k%7*.12,s=new THREE.Mesh(new THREE.SphereGeometry(.045,8,6),M(0xfff0c8));s.scale.set(1,.5,1.6);const h=Math.sqrt(Math.max(0,1.12*1.12-r*r*1.2))*.85*.98;s.position.set(Math.cos(a)*r*1.0,y+h*.97,Math.sin(a)*r*1.0);s.lookAt(0,y+3,0);g.add(s)}
+  g.position.y=-.9}
+ else if(i.k=='d'){const c=cyl(.8,.55,2,0xffffff);c.material.transparent=true;c.material.opacity=.35;g.add(c);const l=cyl(.74,.53,1.6,i.cl);l.position.y=-.15;g.add(l);const s=cyl(.04,.04,1.2,0xff6a00,8);s.position.set(.2,1.1,0);s.rotation.z=-.2;g.add(s);const t=new THREE.Mesh(new THREE.SphereGeometry(.7,24,12,0,6.283,0,1.4),M(0xfff7ea));t.position.y=1;g.add(t)}
+ else if(i.k=='f'){const box=cyl(.9,.7,1,0xd8321f,4);box.rotation.y=.78;box.position.y=-.5;g.add(box);for(let k=0;k<16;k++){const f=new THREE.Mesh(new THREE.BoxGeometry(.16,1.3+k%4*.2,.16),M(0xf0b429));f.position.set((k%4-1.5)*.2,.3,(Math.floor(k/4)-1.5)*.2);f.rotation.set((k%3-1)*.2,0,(k%5-2)*.12);g.add(f)}}
+ else{const p=cyl(1.1,1,.5,0xf5f0e8);p.position.y=-.9;g.add(p);const b=new THREE.Mesh(new THREE.BoxGeometry(1.3,.5,1.3),M(0x3a1d0c));b.position.y=-.4;g.add(b);const s=new THREE.Mesh(new THREE.SphereGeometry(.45,24,16),M(0xfff1d0));s.position.y=.1;g.add(s);const c=new THREE.Mesh(new THREE.TorusGeometry(.3,.07,8,20),M(0xc97a1e));c.position.y=.45;c.rotation.x=1.2;g.add(c)}
+ return g}
+
+function init(){if(T.r)return;const st=$('#stage');T.r=new THREE.WebGLRenderer({antialias:true,alpha:true});T.r.setPixelRatio(Math.min(devicePixelRatio,2));st.insertBefore(T.r.domElement,st.firstChild);
+ T.s=new THREE.Scene();T.c=new THREE.PerspectiveCamera(36,1,.1,50);T.c.position.set(0,1.2,7.2);
+ T.s.add(new THREE.HemisphereLight(0xfff0dd,0x331a08,1.1));const d=new THREE.DirectionalLight(0xffffff,1.1);d.position.set(3,6,4);T.s.add(d);const r=new THREE.PointLight(0xff6a00,1.2,20);r.position.set(-4,1,-2);T.s.add(r);
+ let dn=0,lx=0,ly=0;const e=T.r.domElement;
+ e.addEventListener('pointerdown',ev=>{dn=1;lx=ev.clientX;ly=ev.clientY;T.auto=0;e.setPointerCapture(ev.pointerId)});
+ e.addEventListener('pointermove',ev=>{if(!dn||!T.g)return;T.g.rotation.y+=(ev.clientX-lx)*.012;T.g.rotation.x=Math.max(-.6,Math.min(.9,T.g.rotation.x+(ev.clientY-ly)*.008));lx=ev.clientX;ly=ev.clientY});
+ e.addEventListener('pointerup',()=>{dn=0;setTimeout(()=>T.auto=1,2500)});
+ e.addEventListener('wheel',ev=>{ev.preventDefault();T.c.position.z=Math.max(4.5,Math.min(10,T.c.position.z+ev.deltaY*.005))},{passive:false});
+ (function loop(){requestAnimationFrame(loop);if(!$('#md').classList.contains('open'))return;const w=st.clientWidth,h=st.clientHeight;if(T.r.domElement.width!=w*T.r.getPixelRatio()){T.r.setSize(w,h,false);T.c.aspect=w/h;T.c.updateProjectionMatrix()}
+  if(T.g&&T.auto)T.g.rotation.y+=.008;T.r.render(T.s,T.c)})()}
+
+function setModel(g){if(T.g)T.s.remove(T.g);T.g=g;T.auto=1;T.s.add(g)}
+function openM(x){cur=IT[x];qty=1;init();setModel(model(cur));
+ $('#mn').textContent=cur.n;$('#mdsc').textContent=cur.d;$('#mt').innerHTML=`<span>${cur.tg}</span><span>${cur.kc} kcal</span><span>${cur.t}</span>`;upd();
+ $('#md').classList.add('open');document.body.style.overflow='hidden';ar(0);T.c.position.z=7.2}
+function upd(){$('#q').textContent=qty;$('#mp').textContent=R(cur.p*qty)}
+function close(){$('#md').classList.remove('open');document.body.style.overflow='';ar(0)}
+$('#cl').onclick=close;$('#md').onclick=e=>{if(e.target.id=='md')close()};
+addEventListener('keydown',e=>{if(e.key=='Escape')close()});
+$('#pl').onclick=()=>{qty++;upd()};$('#mi').onclick=()=>{qty=Math.max(1,qty-1);upd()};
+$('#add').onclick=()=>{cart.push({n:cur.n,p:cur.p*qty,q:qty});const n=cart.reduce((a,b)=>a+b.q,0),t=cart.reduce((a,b)=>a+b.p,0);$('#bc').textContent=n+(n>1?' itens':' item');$('#bt').textContent=R(t);$('#bar').classList.add('show');close()};
+$('#heroOpen').onclick=()=>openM(3);
+
+async function ar(on){const st=$('#stage');const v=st.querySelector('video');
+ if(v){v.srcObject&&v.srcObject.getTracks().forEach(t=>t.stop());v.remove()}
+ st.classList.remove('table');$('#hint').textContent='Arraste para girar · role para aproximar';$('#ar').textContent='Ver na minha mesa';T.ar=0;
+ if(!on)return;T.ar=1;$('#ar').textContent='Voltar ao 3D';
+ try{const s=await navigator.mediaDevices.getUserMedia({video:{facingMode:'environment'}});const vi=document.createElement('video');vi.srcObject=s;vi.muted=true;vi.playsInline=true;vi.play();st.insertBefore(vi,st.firstChild);$('#hint').textContent='Aponte a câmera para a mesa e posicione o prato'}
+ catch(e){st.classList.add('table');$('#hint').textContent='Câmera indisponível: mostrando uma mesa virtual'}
+ T.c.position.z=8.5}
+$('#ar').onclick=()=>ar(!T.ar);$('#navAr').onclick=()=>{openM(0);ar(1)};
+
+$('#file').onchange=e=>{const f=e.target.files[0];if(!f)return;if(!THREE.GLTFLoader){$('#hint').textContent='Carregador de modelos indisponível';return}
+ const u=URL.createObjectURL(f);new THREE.GLTFLoader().load(u,gl=>{const g=new THREE.Group(),m=gl.scene,b=new THREE.Box3().setFromObject(m),s=b.getSize(new THREE.Vector3()),c=b.getCenter(new THREE.Vector3());m.position.sub(c);m.scale.setScalar(3/Math.max(s.x,s.y,s.z));g.add(m);setModel(g);$('#hint').textContent='Modelo real carregado'},undefined,()=>{$('#hint').textContent='Arquivo inválido: use .glb ou .gltf'})};
+</script>
+</body>
+</html>
